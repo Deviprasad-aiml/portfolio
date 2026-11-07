@@ -1,0 +1,6 @@
+version: 0.2
+phases:
+  build:
+    commands:
+      - aws s3 sync . s3://portfolio25856 --delete --exclude ".git/*" --exclude "buildspec.yml" --exclude "README.md"
+      - aws cloudfront create-invalidation --distribution-id E2VBQ81FBWVYLL --paths "/*"
