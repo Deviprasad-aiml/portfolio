@@ -14,7 +14,7 @@ I'm a BCA graduate (2022–2026) from Kurnool, Andhra Pradesh, starting my caree
 
 - Responsive, dark-themed single-page layout (desktop, tablet, mobile)
 - Motion design: animated hero cloud diagram, scrolling AWS services ticker, scroll-reveal sections, cursor glow, scroll progress bar, and active-section navigation
-- Filterable skills grid (Compute, Storage & data, Networking & web, Security & monitoring, Git & GitHub) with a cursor spotlight on each card
+- Filterable skills grid (Compute, Storage & data, Networking & web, Security & monitoring, Git & CI/CD) with a cursor spotlight on each card
 - Three personal projects, each with a live link:
   - Portfolio website hosted with Amazon S3 and Amazon CloudFront
   - Serverless To-Do Web App (S3, API Gateway, Lambda, DynamoDB)
@@ -38,12 +38,13 @@ I'm a BCA graduate (2022–2026) from Kurnool, Andhra Pradesh, starting my caree
 | Load balancing | Application Load Balancer |
 | Monitoring | Amazon CloudWatch |
 | Version control | Git, GitHub |
+| CI/CD | AWS CodePipeline, CodeCommit, CodeBuild, CodeDeploy |
 
 ## Projects
 
 | Project | Services | Live |
 | --- | --- | --- |
-| Static website hosting | Amazon S3, Amazon CloudFront | [Portfolio](https://d27uhqlte1g5pd.cloudfront.net/) |
+| Static website hosting | Amazon S3, Amazon CloudFront, GitHub, AWS CodeBuild | [Portfolio](https://d27uhqlte1g5pd.cloudfront.net/) |
 | Serverless To-Do Web App | S3, CloudFront, API Gateway, Lambda (Python), DynamoDB, IAM, CloudWatch Logs | [Open app](https://d14zu7pv5esdgr.cloudfront.net/) |
 | Serverless Image Upload & Gallery App | S3, CloudFront, API Gateway, Lambda, DynamoDB, IAM, presigned URLs | [Open app](https://dxq9xaxo17d4s.cloudfront.net/) |
 
@@ -64,6 +65,7 @@ All three projects are served over HTTPS through Amazon CloudFront, with private
 ├── index.html                           # Main portfolio page
 ├── error.html                           # Custom 404 page
 ├── style.css                            # All styles, including the motion layer
+├── buildspec.yml                        # CodeBuild: sync to S3 + CloudFront invalidation
 ├── script.js                            # Skills filter, motion effects, architecture panels
 ├── certificate.png                      # Certificate preview image
 ├── certificate_AWS_Machani_Deviprasad.pdf  # Certificate PDF
@@ -92,6 +94,10 @@ python -m http.server 8000
 2. Create a CloudFront distribution with the bucket as the origin and use Origin Access Control (OAC) so only CloudFront can read it.
 3. Set the default root object to `index.html` and add a custom error response that serves `error.html`.
 4. Deploy. CloudFront gives you an HTTPS URL like the one above. After updating files, upload them to the bucket and create a CloudFront invalidation to refresh the cache.
+
+## CI/CD Pipeline
+
+Deployments are automated with **AWS CodeBuild** connected to this **GitHub** repository. CodeBuild runs `buildspec.yml`, which syncs the site to the S3 bucket and invalidates the CloudFront cache, so a push to GitHub updates the live site without manual uploads.
 
 ## Certificate
 
